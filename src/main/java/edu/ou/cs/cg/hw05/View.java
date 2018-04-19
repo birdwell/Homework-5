@@ -65,7 +65,8 @@ public final class View
 	private Point2D.Double				origin;		// Current origin coordinates
 	private Point2D.Double				cursor;		// Current cursor coordinates
 	private Nodes nodes;
-
+	private Float zoom;
+	// private double angle;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -84,7 +85,8 @@ public final class View
 		canvas.addGLEventListener(this);
 		animator = new FPSAnimator(canvas, DEFAULT_FRAMES_PER_SECOND);
 		//animator.start();
-
+		this.zoom = (float) 1.0;
+		// this.angle = 0.0;
 		// Initialize interaction
 		keyHandler = new KeyHandler(this);
 		mouseHandler = new MouseHandler(this);
@@ -226,6 +228,16 @@ public final class View
 		canvas.repaint();
 	}
 
+	public void zoomIn() {
+		if (this.zoom - this.zoom * 0.1f < 0) return;
+
+		this.zoom -= this.zoom * 0.1f;
+	}
+
+	public void zoomOut() {
+		this.zoom += Math.abs(this.zoom * 0.1f);
+	}
+
 	//**********************************************************************
 	// Private Methods (Viewport)
 	//**********************************************************************
@@ -243,6 +255,8 @@ public final class View
 		gl.glMatrixMode(GL2.GL_PROJECTION);			// Prepare for matrix xform
 		gl.glLoadIdentity();						// Set to identity matrix
 		glu.gluOrtho2D(xmin, xmax, ymin, ymax);		// 2D translate and scale
+		gl.glRotated(angle, 0, 0, 0);
+		gl.glScalef(zoom, zoom, 1.0f);
 	}
 
 	//**********************************************************************
