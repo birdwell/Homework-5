@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.awt.Color;
 
 class Hull {
 
@@ -28,7 +29,7 @@ class Hull {
 		return (result > 0) ? 1 : 2;
 	}
 
-	public static void convexHull(ArrayList<Point2D.Double> points, GL2 gl) {
+	public static void convexHull(ArrayList<Point2D.Double> points, GL2 gl, Color color) {
 		int n = points.size();
         Vector<Point2D.Double> hull = new Vector<Point2D.Double>();
 
@@ -69,17 +70,17 @@ class Hull {
 		} while ( p != l );
 
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(0.52f, 0.09f, 0.09f);
+		Utilities.setColor(gl, color.getRed(), color.getGreen(), color.getBlue(), 100);
 		for (Point2D.Double point : hull) {
 			gl.glVertex2d(point.x, point.y);
 		}
 		gl.glEnd();
 
-		gl.glBegin(GL.GL_LINE_LOOP);
-		gl.glColor3f(0.99f, 0.98f, 0.85f);
-		for (Point2D.Double point : hull) {
-			gl.glVertex2d(point.x, point.y);
-		}
-		gl.glEnd();
+		// gl.glBegin(GL.GL_LINE_LOOP);
+		// Utilities.setColor(gl, color.getRed(), color.getGreen(), color.getBlue());
+		// for (Point2D.Double point : hull) {
+		// 	gl.glVertex2d(point.x, point.y);
+		// }
+		// gl.glEnd();
 	}
 }

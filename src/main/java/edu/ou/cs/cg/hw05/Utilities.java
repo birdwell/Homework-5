@@ -90,7 +90,7 @@ public final class Utilities
 	}
 
 	public static void setColor(GL2 gl, int r, int g, int b, int a) {
-		gl.glColor4f(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+		gl.glColor4f(r / 255.0f, g / 255.0f, b / 255.0f, 0.5f);
 	}
 
 	public static void setColor(GL2 gl, int r, int g, int b) {

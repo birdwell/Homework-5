@@ -49,11 +49,21 @@ public class Node {
 	private Point2D.Double center;
 	private Double rotate;
 	private Boolean beenActiveBefore;
+	private ArrayList<Node> friends;
 
 	public Node(String name) {
 		this.name = name;
 		this.sides = Network.getSides(name);
 		this.color = Network.getColor(name);
+		this.beenActiveBefore = false;
+		this.rotate = 0.0;
+		generator = new Random();
+	}
+
+	public Node(Person person) {
+		this.name = person.name;
+		this.sides = person.sides;
+		this.color = person.color;
 		this.beenActiveBefore = false;
 		this.rotate = 0.0;
 		generator = new Random();
@@ -69,6 +79,22 @@ public class Node {
 
 	public Point2D.Double getCenter() {
 		return this.center;
+	}
+
+	public ArrayList<Node> getFriends() {
+		return this.friends;
+	}
+
+	public void addFriends(Node friend) {
+		this.friends.add(friend);
+	}
+
+	public void addFriends(ArrayList<Node> friends) {
+		this.friends = friends;
+	}
+
+	public Color getColor() {
+		return this.color;
 	}
 
 	/**

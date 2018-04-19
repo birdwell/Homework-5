@@ -274,8 +274,9 @@ public final class View
 	private void	update(GLAutoDrawable drawable)
 	{
 		GL2 gl = drawable.getGL().getGL2();
-		Hull.convexHull(this.nodes.getCenters(), gl);
+
 		this.nodes.drawNameLabel(renderer, drawable);
+		this.nodes.drawFriendConnections(gl);
 		this.nodes.drawNodes(gl);
 	}
 
@@ -287,8 +288,8 @@ public final class View
 		drawAxes(gl);							// X and Y axes
 		drawCursor(gl);							// Crosshairs at mouse location
 		
-		Hull.convexHull(this.nodes.getCenters(), gl);
 		this.nodes.drawNameLabel(renderer, drawable);
+		this.nodes.drawFriendConnections(gl);
 		this.nodes.drawNodes(gl);
 	}
 

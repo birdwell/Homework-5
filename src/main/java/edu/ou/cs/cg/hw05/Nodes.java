@@ -37,9 +37,19 @@ public class Nodes {
 
 		this.currentInactiveIndex = 0;
 		this.currentActiveIndex = -1;
+		int n = 50;
 
-		for (String name : Network.getAllNames()) {
-			this.inactiveNodes.add(new Node(name));
+		for (Person person : Network.createNetwork(n)) {
+			this.inactiveNodes.add(new Node(person));
+		}
+		Random rand = new Random();
+
+		for (Node node : this.inactiveNodes) {
+			ArrayList<Node> friends = new ArrayList<Node>();
+			for(int i = 0; i < rand.nextInt(n); i++) {
+				friends.add(this.inactiveNodes.get(rand.nextInt(n)));
+			}
+			node.addFriends(friends);
 		}
 	}
 
@@ -117,6 +127,34 @@ public class Nodes {
 	public void drawNodes(GL2 gl) {
 		for (int i = 0; i < this.activeNodes.size(); i++) {
 			this.activeNodes.get(i).draw(gl, i == this.currentActiveIndex);
+		}
+	}
+
+	public void drawFriendConnections(GL2 gl) {
+		for (Node node : this.activeNodes) {
+			ArrayList<Node> friends = node.getFriends();
+			ArrayList<Point2D.Double> friendsCenters = new ArrayList<Point2D.Double>();
+			Point2D.Double center = node.getCenter();
+			friendsCenters.add(center);
+			for (Node friend : friends) {
+				if (this.activeNodes.contains(friend)) {
+					Point2D.Double friendCenter = friend.getCenter();
+					friendsCenters.add(friendCenter);
+				}
+			}
+		
+			if (friendsCenters.size() > 2) {
+				Hull.convexHull(friendsCenters, gl, node.getColor());
+			}
+
+			for(Point2D.Double fCenter : friendsCenters) {
+				gl.glBegin(GL2.GL_LINES);
+				gl.glLineWidth(4.0f);
+				gl.glColor3f(1f, 0.99f, 0.33f);
+				gl.glVertex2d(center.x, center.y);
+				gl.glVertex2d(fCenter.x, fCenter.y);
+				gl.glEnd();
+			}
 		}
 	}
 

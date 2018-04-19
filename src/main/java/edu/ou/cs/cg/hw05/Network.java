@@ -16,6 +16,7 @@ package edu.ou.cs.cg.hw05;
 
 //import java.lang.*;
 import java.awt.Color;
+import java.util.ArrayList;
 
 //******************************************************************************
 
@@ -34,35 +35,106 @@ public final class Network
 	// Mostly from https://en.wikipedia.org/wiki/List_of_most_popular_given_names
 	private static final String[]	NAMES = new String[]
 	{
-		"Anya",
-		"Bob the Amazing Grid Doodle",
-		"Chris",
-		"Daniel",
-		"Emma",
-		"Fatima",
-		"George",
-		"Hanna",
-		"Isaac",
-
-		"James",
-		"Kyle",
-		"Luis",
-		"Manuel",
-		"Nikola",
-		"Oscar",
-		"Peter",
-		"Qian",
-		"Roger",
-
-		"Santiago",
-		"Tareq",
-		"Umar",
-		"Victor",
-		"William",
-		"Xiaoyan",
-		"Yusuf",
-		"Zoe",
-		"Johann Gambolputty de von Ausfern- schplenden- schlitter- crasscrenbon- fried- digger- dingle- dangle- dongle- dungle- burstein- von- knacker- thrasher- apple- banger- horowitz- ticolensic- grander- knotty- spelltinkle- grandlich- grumblemeyer- spelterwasser- kurstlich- himbleeisen- bahnwagen- gutenabend- bitte- ein- nürnburger- bratwustle- gerspurten- mitz- weimache- luber- hundsfut- gumberaber- shönedanker- kalbsfleisch- mittler- aucher von Hautkopft of Ulm",
+		"Brenden Frederick",
+		"Deandre Hayden",
+		"Gunner Andersen",
+		"Dixie Middleton",
+		"Kiersten Gillespie",
+		"Peter Rangel",
+		"Kaylah Huerta",
+		"Magdalena Herrera",
+		"Ainsley Buckley",
+		"Jose Banks",
+		"Willie Adkins",
+		"Van Downs",
+		"Cason Luna",
+		"David King",
+		"Darren Smith",
+		"Reece Miranda",
+		"Ahmad Odonnell",
+		"Shelby Mason",
+		"Jadiel Hunter",
+		"Tony Flynn",
+		"Brice Bailey",
+		"Jimena Maldonado",
+		"Aditya Collier",
+		"Kaley Mcfarland",
+		"Braylon Leblanc",
+		"Erica Harris",
+		"Iris Holmes",
+		"Jamie Faulkner",
+		"Tyson Payne",
+		"Eliana Kirby",
+		"June Bryant",
+		"Damien Rodgers",
+		"Jaylen Robertson",
+		"Emerson Barton",
+		"Jonas Holloway",
+		"Mason Evans",
+		"Emery Johnson",
+		"Gretchen Black",
+		"Kennedi Cameron",
+		"Adan Little",
+		"Annalise Schultz",
+		"Anastasia David",
+		"Alina Cortez",
+		"Dennis Porter",
+		"Salma Estrada",
+		"Jovan Henderson",
+		"Nathanial Abbott",
+		"Kyler Mccullough",
+		"Ruth Zhang",
+		"Estrella Kent",
+		"Ari Estes",
+		"Kamron Dominguez",
+		"Waylon Hurley",
+		"Bronson Mcgrath",
+		"Nola Golden",
+		"Reuben Nash",
+		"Fernando Escobar",
+		"Alberto Collins",
+		"Finley Gay",
+		"Theodore Chase",
+		"Dakota Stanley",
+		"Dorian Mcknight",
+		"Tamia Brandt",
+		"Terry Dunn",
+		"Marlee Logan",
+		"Anderson West",
+		"Jesse Potts",
+		"Kailyn Beasley",
+		"Marissa Barron",
+		"Santino Powers",
+		"Lucille Osborne",
+		"Diya Madden",
+		"Cristian Ali",
+		"Holden Ponce",
+		"Isaiah Mcmahon",
+		"Zachary Hayes",
+		"Ivan Hays",
+		"Raymond Mayer",
+		"Kierra Sexton",
+		"Brynn Yang",
+		"Emily Bishop",
+		"Kameron Hartman",
+		"Kyle Pena",
+		"Johnathan Gonzalez",
+		"Uriah Atkins",
+		"Jimmy Cox",
+		"Ashtyn Fry",
+		"Maddox Phillips",
+		"Annabella Gordon",
+		"Dustin Valdez",
+		"Meredith Hart",
+		"Perla Gibson",
+		"Jenna Boyd",
+		"Kadin Huang",
+		"Kylie Molina",
+		"Kaila Fields",
+		"Mireya Carr",
+		"Kenny Walker",
+		"Amiya Ibarra",
+		"Jagger Pennington",
 	};
 
 	// Just made up for sake of variety. Notice the stress test hidden in #7.
@@ -110,6 +182,15 @@ public final class Network
 	//**********************************************************************
 	// Public Class Methods (Event Handling)
 	//**********************************************************************
+
+	public static ArrayList<Person> createNetwork(int n) {
+		ArrayList<Person> people = new ArrayList<Person>();
+		for(int i = 0; i <= n; i++) {
+			people.add(new Person(NAMES[i]));
+		}
+		
+		return people;
+	}
 
 	public static String[]	getAllNames()
 	{
