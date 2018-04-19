@@ -106,7 +106,12 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_ENTER:
 				view.activeNode();
 				break;
-			
+			case KeyEvent.VK_X:
+				view.zoomIn();
+				break;
+			case KeyEvent.VK_Z:
+				view.zoomOut();
+				break;
 			case KeyEvent.VK_BACK_SPACE:
 				view.deleteActiveNode();
 				break;
