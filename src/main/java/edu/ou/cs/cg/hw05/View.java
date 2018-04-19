@@ -66,7 +66,6 @@ public final class View
 	private Point2D.Double				cursor;		// Current cursor coordinates
 	private Nodes nodes;
 	private Float zoom;
-	// private double angle;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -84,9 +83,7 @@ public final class View
 		// Initialize rendering
 		canvas.addGLEventListener(this);
 		animator = new FPSAnimator(canvas, DEFAULT_FRAMES_PER_SECOND);
-		//animator.start();
 		this.zoom = (float) 1.0;
-		// this.angle = 0.0;
 		// Initialize interaction
 		keyHandler = new KeyHandler(this);
 		mouseHandler = new MouseHandler(this);
@@ -174,6 +171,11 @@ public final class View
 		this.h = h;
 	}
 
+	/**
+	 * INTERACTION with the this.nodes which is an instance of the node class.
+	 * Go to Nodes.java to find out more about the node class
+	 */
+
 	public void cycleNames (Integer i) {
 		if (i == 1) {
 			this.nodes.getNextName();
@@ -238,6 +240,13 @@ public final class View
 		this.zoom += Math.abs(this.zoom * 0.1f);
 	}
 
+	public void putInLine() {
+		this.nodes.putInLine();
+	}
+
+	//**********************************************************************
+
+
 	//**********************************************************************
 	// Private Methods (Viewport)
 	//**********************************************************************
@@ -255,8 +264,7 @@ public final class View
 		gl.glMatrixMode(GL2.GL_PROJECTION);			// Prepare for matrix xform
 		gl.glLoadIdentity();						// Set to identity matrix
 		glu.gluOrtho2D(xmin, xmax, ymin, ymax);		// 2D translate and scale
-		gl.glRotated(angle, 0, 0, 0);
-		gl.glScalef(zoom, zoom, 1.0f);
+		gl.glScalef(this.zoom, this.zoom, 1.0f);
 	}
 
 	//**********************************************************************
@@ -278,6 +286,7 @@ public final class View
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);		// Clear the buffer
 		drawAxes(gl);							// X and Y axes
 		drawCursor(gl);							// Crosshairs at mouse location
+		
 		Hull.convexHull(this.nodes.getCenters(), gl);
 		this.nodes.drawNameLabel(renderer, drawable);
 		this.nodes.drawNodes(gl);

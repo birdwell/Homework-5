@@ -1,6 +1,21 @@
+//******************************************************************************
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
+//******************************************************************************
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
+//******************************************************************************
+// Major Modification History:
+// 20180407 [birdwell]: Homework 5
+// 
+//
+//******************************************************************************
+// Notes:
+/*
+	This is the main part where the interaction with all the nodes in the network happens
+*/
+//******************************************************************************
+
 package edu.ou.cs.cg.hw05;
 
-// import java.lang.*;
 import java.awt.Color;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,52 +33,65 @@ import edu.ou.cs.cg.hw05.Utilities;
 
 /**
  * Node
+ * 
  */
 public class Node {
+	// Constants
 	private static double MIN = -0.75;
 	private static double MAX = 0.75;
 	private double radius = 0.05;
 	private Random generator;
+
+	// Properties of the node class
 	private String name;
 	private Integer sides;
 	private Color color;
-	private Boolean inUse;
 	private Point2D.Double center;
 	private Double rotate;
+	private Boolean beenActiveBefore;
 
 	public Node(String name) {
 		this.name = name;
 		this.sides = Network.getSides(name);
 		this.color = Network.getColor(name);
-		this.inUse = false;
+		this.beenActiveBefore = false;
 		this.rotate = 0.0;
 		generator = new Random();
 	}
 
+	/**
+	 * Basic getters
+	 */
+	
 	public String getName() {
 		return this.name;
-	}
-
-	public Boolean contains(Double length) {
-		return length <= this.radius;
-	}
-
-	public void activate() {
-		double x = this.generator.nextDouble()*(MAX-MIN) + MIN;
-		double y = this.generator.nextDouble()*(MAX-MIN) + MIN;
-		this.center = new Point2D.Double(x, y);
-		this.inUse = true;
-	}
-
-	public void disable() {
-		this.inUse = false;
-		this.center = null;
 	}
 
 	public Point2D.Double getCenter() {
 		return this.center;
 	}
 
+	/**
+	 * Contains is for the clicking!
+	 */
+	
+	public Boolean contains(Double length) {
+		return length <= this.radius;
+	}
+
+	public void activate() {
+		if (!this.beenActiveBefore) {
+			double x = this.generator.nextDouble() * (MAX - MIN) + MIN;
+			double y = this.generator.nextDouble() * (MAX - MIN) + MIN;
+			this.center = new Point2D.Double(x, y);
+		}
+		this.beenActiveBefore = true;
+	}
+
+	//**********************************************************************
+	// Move Methods
+	//**********************************************************************
+	
 	public void move(Point2D.Double newCenter) {
 		this.center = newCenter;
 	}
@@ -77,6 +105,10 @@ public class Node {
 		double y = this.center.y + (this.radius * 2 * (i * 0.1));
 		this.center = new Point2D.Double(this.center.x, y);
 	}
+
+	//**********************************************************************
+	// Scale - Rotate - Drawing Methods
+	//**********************************************************************
 
 	public void scale(double i) {
 		if (i == 1) {

@@ -115,9 +115,11 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_BACK_SPACE:
 				view.deleteActiveNode();
 				break;
+			case KeyEvent.VK_L:
+				view.putInLine();
 			case KeyEvent.VK_DELETE:
 				view.deleteActiveNode();
-				return;
+				break;
 		}
 
 		view.setOrigin(p);

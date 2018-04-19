@@ -10,16 +10,7 @@
 //******************************************************************************
 // Notes:
 /*
-	This was a class that was built at the beginning to help with a ton of vector math.
-	Nothing really changed other than adding the ability to create a vector from 
-	two points instead of just one point. I had the reflect method here and the normalize method.
-	This is the backbone of the project and once it was solid I was able to forget about it 
-	and just use it.
-
-	Part 2 - Initial Reflection & Velocity Changer:
-	Part 3 - Polygon Container Change & Dynamic Selection:
-	Part 4 - Polygon Ball & Ball Size Changer:
-	Part 5 - Add More Balls to Container: 
+	Same class from my last homework
 */
 //******************************************************************************
 

@@ -20,6 +20,9 @@ import edu.ou.cs.cg.hw05.Network;
 
 /**
  * Nodes
+ * Active Nodes are the ones on the screen
+ * Inactive nodes are the names that appear in the lsit
+ * indexs are for keeping the selected active and the current name
  */
 public class Nodes {
 	private ArrayList<Node> activeNodes;
@@ -28,8 +31,10 @@ public class Nodes {
 	private Integer currentActiveIndex;
 
 	public Nodes() {
+		// Setup the array lists for the active and inactive nodes
 		this.inactiveNodes = new ArrayList<Node>();
 		this.activeNodes = new ArrayList<Node>();
+
 		this.currentInactiveIndex = 0;
 		this.currentActiveIndex = -1;
 
@@ -37,6 +42,8 @@ public class Nodes {
 			this.inactiveNodes.add(new Node(name));
 		}
 	}
+
+	// Cycling through the names and active nodes
 
 	public void getNextName() {
 		if (currentInactiveIndex + 1 >= this.inactiveNodes.size()) {
@@ -80,21 +87,8 @@ public class Nodes {
 		}
 	}
 
-
-	public void drawNameLabel(TextRenderer textRenderer, GLAutoDrawable drawable) {
-		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(Color.YELLOW);
-		textRenderer.setSmoothing(true);
-
-		if (this.inactiveNodes.size() > 0) {
-			textRenderer.draw(this.inactiveNodes.get(this.currentInactiveIndex).getName(), 2, 2);
-		} else {
-			textRenderer.draw("No names left", 2, 2);
-		}
-		
-		textRenderer.endRendering();
-	}
-
+	// ---------------------------------------------
+	// Insertion and deletion from the active lists
 	public void insertNode() {
 		if (this.inactiveNodes.size() == 0) return;
 
@@ -106,22 +100,42 @@ public class Nodes {
 		this.getNextName();
 	}
 
+	public void deleteActiveNode() {
+		if (this.activeNodes.size() == 0) return;
+		Node activeNode = this.activeNodes.get(this.currentActiveIndex);
+
+		this.inactiveNodes.add(activeNode);
+		this.activeNodes.remove(activeNode);
+		this.getNextActive();
+	}
+	// ---------------------------------------------
+
+	/*
+	*	Drawing methods
+	*
+	*/
 	public void drawNodes(GL2 gl) {
 		for (int i = 0; i < this.activeNodes.size(); i++) {
 			this.activeNodes.get(i).draw(gl, i == this.currentActiveIndex);
 		}
 	}
 
-	public void deleteActiveNode() {
-		if (this.activeNodes.size() == 0) return;
-		System.out.println("here");
-		Node activeNode = this.activeNodes.get(this.currentActiveIndex);
-		activeNode.disable();
-		this.inactiveNodes.add(activeNode);
-		this.activeNodes.remove(activeNode);
-		this.getNextActive();
-	}
+	public void drawNameLabel(TextRenderer textRenderer, GLAutoDrawable drawable) {
+		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textRenderer.setColor(Color.YELLOW);
+		textRenderer.setSmoothing(true);
 
+		if (this.inactiveNodes.size() > 0) {
+			textRenderer.draw(this.inactiveNodes.get(this.currentInactiveIndex).getName(), 2, 2);
+		} else {
+			textRenderer.draw("No names left", 2, 2);
+		}
+
+		textRenderer.endRendering();
+	}
+	// ---------------------------------------------
+
+	// Selection of the nodes and inside detection
 	public Boolean insideNode(Point2D.Double click) {
 		if (this.activeNodes.size() == 0) return false;
 
@@ -139,7 +153,7 @@ public class Nodes {
 	public void selectNode(Point2D.Double click) {
 		if (this.activeNodes.size() == 0) return;
 		
-		for (int i = 0; i < this.activeNodes.size(); i++) {
+		for (int i = this.activeNodes.size() - 1; i >= 0; i--) {
 			Vector clickVector = new Vector(this.activeNodes.get(i).getCenter(), click);
 			if (this.activeNodes.get(i).contains(clickVector.getMagnitude())) {
 				this.currentActiveIndex = i;
@@ -147,7 +161,9 @@ public class Nodes {
 			}
 		}
 	}
+	// ---------------------------------------------
 
+	// Moving scaling and other helper functions
 	public void moveActiveNode(Character type, Double i) {
 		if (currentActiveIndex != null && currentActiveIndex >= 0) {
 			Node activeNode = this.activeNodes.get(currentActiveIndex);
@@ -184,5 +200,13 @@ public class Nodes {
 			centers.add(node.getCenter());
 		}
 		return centers;
+	}
+
+	public void putInLine() {
+		double x = -0.5;
+		for (Node node : this.activeNodes) {
+			node.move(new Point2D.Double(x, 0.34));
+			x += .15;
+		}
 	}
 }
